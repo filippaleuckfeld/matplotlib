@@ -16,6 +16,10 @@
 .idea
 .vscode/
 
+#########################################
+# virtual environment #
+env/
+
 # Compiled source #
 ###################
 *.a
