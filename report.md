@@ -1,26 +1,36 @@
-# Report for assignment 3
+# Report for assignment 3, Group 1
 
-This is a template for your report. You are free to modify it as needed.
-It is not required to use markdown for your report either, but the report
-has to be delivered in a standard, cross-platform format.
+Assignment 3 is about code coverage and complexity. 
+
+Contributions from the members of Group 1 are:
+
+- David Kaméus 
+    - 
+- Alexander Binett
+    - 
+- Filippa Leuckfeld
+    - 
+- Håvard Alstadheim
+    -
+- Carin Bystam
+    -
 
 ## Project
 
-Name: 
+Name: matplotlb
 
-URL:
+Source repo URL: https://github.com/matplotlib/matplotlib
 
-One or two sentences describing it
+Forked repo URL: https://github.com/filippaleuckfeld/matplotlib
+
+matplotlib is a python library for creating plots and graphs easily.
 
 ## Onboarding experience
 
-Did it build and run as documented?
-    
-See the assignment for details; if everything works out of the box,
-there is no need to write much here. If the first project(s) you picked
-ended up being unsuitable, you can describe the "onboarding experience"
-for each project, along with reason(s) why you changed to a different one.
+### Did it build and run as documented?
 
+We had different experiences building the project and running the tests.
+TODO: add details
 
 ## Complexity
 
