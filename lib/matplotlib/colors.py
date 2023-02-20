@@ -56,6 +56,8 @@ import numpy as np
 from matplotlib import _api, _cm, cbook, scale
 from ._color_data import BASE_COLORS, TABLEAU_COLORS, CSS4_COLORS, XKCD_COLORS
 
+from tests import to_rgba_no_colorcycle_helper, to_rgba_no_colorcycle_path
+
 
 class _ColorMapping(dict):
     def __init__(self, mapping):
@@ -317,82 +319,193 @@ def _to_rgba_no_colorcycle(c, alpha=None):
     """
     orig_c = c
     if c is np.ma.masked:
+        to_rgba_no_colorcycle_helper[0] = True
+        with open(to_rgba_no_colorcycle_path, 'a+') as f:
+            f.write(str(to_rgba_no_colorcycle_helper))
+            f.write('\n')
         return (0., 0., 0., 0.)
+    else:
+        to_rgba_no_colorcycle_helper[1] = True
     if isinstance(c, str):
+        to_rgba_no_colorcycle_helper[2] = True
         if c.lower() == "none":
+            to_rgba_no_colorcycle_helper[5] = True
+            with open(to_rgba_no_colorcycle_path, 'a+') as f:
+                f.write(str(to_rgba_no_colorcycle_helper))
+                f.write('\n')
             return (0., 0., 0., 0.)
         # Named color.
+        else:
+            to_rgba_no_colorcycle_helper[6] = True
         try:
+            to_rgba_no_colorcycle_helper[7] = True
             # This may turn c into a non-string, so we check again below.
             c = _colors_full_map[c]
         except KeyError:
+            to_rgba_no_colorcycle_helper[8] = True
             if len(orig_c) != 1:
+                to_rgba_no_colorcycle_helper[9] = True
                 try:
+                    to_rgba_no_colorcycle_helper[11] = True
                     c = _colors_full_map[c.lower()]
                 except KeyError:
+                    to_rgba_no_colorcycle_helper[12] = True
                     pass
+            else:
+                to_rgba_no_colorcycle_helper[10] = True
+    else:
+        to_rgba_no_colorcycle_helper[4] = True
     if isinstance(c, str):
+        to_rgba_no_colorcycle_helper[13] = True
         # hex color in #rrggbb format.
         match = re.match(r"\A#[a-fA-F0-9]{6}\Z", c)
         if match:
+            to_rgba_no_colorcycle_helper[15] = True
+            with open(to_rgba_no_colorcycle_path, 'a+') as f:
+                f.write(str(to_rgba_no_colorcycle_helper))
+                f.write('\n')
             return (tuple(int(n, 16) / 255
                           for n in [c[1:3], c[3:5], c[5:7]])
                     + (alpha if alpha is not None else 1.,))
+        else:
+            to_rgba_no_colorcycle_helper[16] = True
         # hex color in #rgb format, shorthand for #rrggbb.
         match = re.match(r"\A#[a-fA-F0-9]{3}\Z", c)
         if match:
+            to_rgba_no_colorcycle_helper[17] = True
+            with open(to_rgba_no_colorcycle_path, 'a+') as f:
+                f.write(str(to_rgba_no_colorcycle_helper))
+                f.write('\n')
             return (tuple(int(n, 16) / 255
                           for n in [c[1]*2, c[2]*2, c[3]*2])
                     + (alpha if alpha is not None else 1.,))
+        else:
+            to_rgba_no_colorcycle_helper[18] = True
         # hex color with alpha in #rrggbbaa format.
         match = re.match(r"\A#[a-fA-F0-9]{8}\Z", c)
         if match:
+            to_rgba_no_colorcycle_helper[19] = True
             color = [int(n, 16) / 255
                      for n in [c[1:3], c[3:5], c[5:7], c[7:9]]]
             if alpha is not None:
+                to_rgba_no_colorcycle_helper[21] = True
                 color[-1] = alpha
+            else:
+                to_rgba_no_colorcycle_helper[22] = True
+            with open(to_rgba_no_colorcycle_helper, 'a+') as f:
+                f.write(str(to_rgba_no_colorcycle_helper))
+                f.write('\n')
             return tuple(color)
+
+        else:
+            to_rgba_no_colorcycle_helper[20] = True
         # hex color with alpha in #rgba format, shorthand for #rrggbbaa.
         match = re.match(r"\A#[a-fA-F0-9]{4}\Z", c)
         if match:
+            to_rgba_no_colorcycle_helper[23] = True
             color = [int(n, 16) / 255
                      for n in [c[1]*2, c[2]*2, c[3]*2, c[4]*2]]
+            to_rgba_no_colorcycle_helper[25] = True  # connected to the for loop
             if alpha is not None:
+                to_rgba_no_colorcycle_helper[26] = True
                 color[-1] = alpha
+            else:
+                to_rgba_no_colorcycle_helper[27] = True
+            with open(to_rgba_no_colorcycle_path, 'a+') as f:
+                f.write(str(to_rgba_no_colorcycle_helper))
+                f.write('\n')
             return tuple(color)
+        else:
+            to_rgba_no_colorcycle_helper[24] = True
         # string gray.
         try:
+            to_rgba_no_colorcycle_helper[28] = True
             c = float(c)
         except ValueError:
+            to_rgba_no_colorcycle_helper[29] = True
             pass
         else:
+            to_rgba_no_colorcycle_helper[30] = True
             if not (0 <= c <= 1):
+                to_rgba_no_colorcycle_helper[31] = True
+                with open(to_rgba_no_colorcycle_path, 'a+') as f:
+                    f.write(str(to_rgba_no_colorcycle_helper))
+                    f.write('\n')
                 raise ValueError(
                     f"Invalid string grayscale value {orig_c!r}. "
                     f"Value must be within 0-1 range")
+            else:
+                to_rgba_no_colorcycle_helper[32] = True
+            with open(to_rgba_no_colorcycle_path, 'a+') as f:
+                f.write(str(to_rgba_no_colorcycle_helper))
+                f.write('\n')
             return c, c, c, alpha if alpha is not None else 1.
+        with open(to_rgba_no_colorcycle_path, 'a+') as f:
+            f.write(str(to_rgba_no_colorcycle_helper))
+            f.write('\n')
         raise ValueError(f"Invalid RGBA argument: {orig_c!r}")
+    else:
+        to_rgba_no_colorcycle_helper[14] = True
     # turn 2-D array into 1-D array
     if isinstance(c, np.ndarray):
+        to_rgba_no_colorcycle_helper[33] = True
         if c.ndim == 2 and c.shape[0] == 1:
+            to_rgba_no_colorcycle_helper[35] = True
             c = c.reshape(-1)
+        else:
+            to_rgba_no_colorcycle_helper[36] = True
+    else:
+        to_rgba_no_colorcycle_helper[34] = True
     # tuple color.
     if not np.iterable(c):
+        to_rgba_no_colorcycle_helper[37] = True
+        with open(to_rgba_no_colorcycle_path, 'a+') as f:
+            f.write(str(to_rgba_no_colorcycle_helper))
+            f.write('\n')
         raise ValueError(f"Invalid RGBA argument: {orig_c!r}")
+    else:
+        to_rgba_no_colorcycle_helper[38] = True
     if len(c) not in [3, 4]:
+        to_rgba_no_colorcycle_helper[39] = True
+        with open(to_rgba_no_colorcycle_path, 'a+') as f:
+            f.write(str(to_rgba_no_colorcycle_helper))
+            f.write('\n')
         raise ValueError("RGBA sequence should have length 3 or 4")
+    else:
+        to_rgba_no_colorcycle_helper[40] = True
     if not all(isinstance(x, Real) for x in c):
+        to_rgba_no_colorcycle_helper[41] = True
         # Checks that don't work: `map(float, ...)`, `np.array(..., float)` and
         # `np.array(...).astype(float)` would all convert "0.5" to 0.5.
+        with open(to_rgba_no_colorcycle_path, 'a+') as f:
+            f.write(str(to_rgba_no_colorcycle_helper))
+            f.write('\n')
         raise ValueError(f"Invalid RGBA argument: {orig_c!r}")
+    else:
+        to_rgba_no_colorcycle_helper[42] = True
     # Return a tuple to prevent the cached value from being modified.
     c = tuple(map(float, c))
     if len(c) == 3 and alpha is None:
+        to_rgba_no_colorcycle_helper[43] = True
         alpha = 1
+    else:
+        to_rgba_no_colorcycle_helper[44] = True
     if alpha is not None:
+        to_rgba_no_colorcycle_helper[45] = True
         c = c[:3] + (alpha,)
+    else:
+        to_rgba_no_colorcycle_helper[46] = True
     if any(elem < 0 or elem > 1 for elem in c):
+        to_rgba_no_colorcycle_helper[47] = True
+        with open(to_rgba_no_colorcycle_path, 'a+') as f:
+            f.write(str(to_rgba_no_colorcycle_helper))
+            f.write('\n')
         raise ValueError("RGBA values should be within 0-1 range")
+    else:
+        to_rgba_no_colorcycle_helper[48] = True
+    with open(to_rgba_no_colorcycle_path, 'a+') as f:
+        f.write(str(to_rgba_no_colorcycle_helper))
+        f.write('\n')
     return c
 
 
