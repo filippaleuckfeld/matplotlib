@@ -3249,6 +3249,27 @@ def test_boxplot_autorange_whiskers():
     ax2.set_ylim((-5, 5))
 
 
+@image_comparison(['boxplot_1point1_whiskers.png',
+                   'boxplot_0-100_whiskers.png'],
+                  remove_text=True,
+                  extensions=['png'],
+                  style='mpl20')
+def test_boxplot_custom_whis():
+    # Randomness used for bootstrapping.
+    np.random.seed(937)
+
+    x = np.ones(140)
+    x = np.hstack([0, x, 2])
+
+    fig1, ax1 = plt.subplots()
+    ax1.boxplot([x, x], bootstrap=10000, notch=1, whis=1.1)
+    ax1.set_ylim((-5, 5))
+
+    fig2, ax2 = plt.subplots()
+    ax2.boxplot([x, x], bootstrap=10000, notch=1, whis=(0, 100))
+    ax2.set_ylim((-5, 5))
+
+
 def _rc_test_bxp_helper(ax, rc_dict):
     x = np.linspace(-7, 7, 140)
     x = np.hstack([-25, x, 25])
