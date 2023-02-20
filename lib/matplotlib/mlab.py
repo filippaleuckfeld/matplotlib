@@ -57,6 +57,8 @@ import numpy as np
 
 from matplotlib import _api, _docstring, cbook
 
+from .tests import coverage_spectral_helper, coverage_spectral_helper_file
+
 
 def window_hanning(x):
     """
@@ -295,90 +297,152 @@ def _spectral_helper(x, y=None, NFFT=None, Fs=None, detrend_func=None,
     Private helper implementing the common parts between the psd, csd,
     spectrogram and complex, magnitude, angle, and phase spectrums.
     """
+    coverage_spectral_helper
+    coverage_spectral_helper_file
     if y is None:
         # if y is None use x for y
+        coverage_spectral_helper[0] = True
         same_data = True
     else:
+        coverage_spectral_helper[1] = True
         # The checks for if y is x are so that we can use the same function to
         # implement the core of psd(), csd(), and spectrogram() without doing
         # extra calculations.  We return the unaveraged Pxy, freqs, and t.
         same_data = y is x
 
     if Fs is None:
+        coverage_spectral_helper[2] = True
         Fs = 2
+    else:
+        coverage_spectral_helper[3] = True
     if noverlap is None:
+        coverage_spectral_helper[4] = True
         noverlap = 0
+    else:
+        coverage_spectral_helper[5] = True
     if detrend_func is None:
+        coverage_spectral_helper[6] = True
         detrend_func = detrend_none
+    else:
+        coverage_spectral_helper[7] = True
     if window is None:
+        coverage_spectral_helper[8] = True
         window = window_hanning
+    else:
+        coverage_spectral_helper[9] = True
 
     # if NFFT is set to None use the whole signal
     if NFFT is None:
+        coverage_spectral_helper[10] = True
         NFFT = 256
+    else:
+        coverage_spectral_helper[11] = True
 
     if mode is None or mode == 'default':
+        coverage_spectral_helper[12] = True
         mode = 'psd'
+    else:
+        coverage_spectral_helper[13] = True
     _api.check_in_list(
         ['default', 'psd', 'complex', 'magnitude', 'angle', 'phase'],
         mode=mode)
 
     if not same_data and mode != 'psd':
+        coverage_spectral_helper[14] = True
+        with open(coverage_spectral_helper_file, "a+") as f:
+            f.write(str(coverage_spectral_helper) + "\n")
         raise ValueError("x and y must be equal if mode is not 'psd'")
-
+    else:
+        coverage_spectral_helper[15] = True
     # Make sure we're dealing with a numpy array. If y and x were the same
     # object to start with, keep them that way
     x = np.asarray(x)
     if not same_data:
+        coverage_spectral_helper[16] = True
         y = np.asarray(y)
+    else:
+        coverage_spectral_helper[17] = True
 
     if sides is None or sides == 'default':
+        coverage_spectral_helper[18] = True
         if np.iscomplexobj(x):
+            coverage_spectral_helper[19] = True
             sides = 'twosided'
         else:
+            coverage_spectral_helper[20] = True
             sides = 'onesided'
+    else:
+        coverage_spectral_helper[21] = True
     _api.check_in_list(['default', 'onesided', 'twosided'], sides=sides)
 
     # zero pad x and y up to NFFT if they are shorter than NFFT
     if len(x) < NFFT:
+        coverage_spectral_helper[22] = True
         n = len(x)
         x = np.resize(x, NFFT)
         x[n:] = 0
+    else:
+        coverage_spectral_helper[23] = True
 
     if not same_data and len(y) < NFFT:
+        coverage_spectral_helper[24] = True
         n = len(y)
         y = np.resize(y, NFFT)
         y[n:] = 0
+    else:
+        coverage_spectral_helper[25] = True
 
     if pad_to is None:
+        coverage_spectral_helper[26] = True
         pad_to = NFFT
+    else:
+        coverage_spectral_helper[27] = True
 
     if mode != 'psd':
+        coverage_spectral_helper[28] = True
         scale_by_freq = False
     elif scale_by_freq is None:
+        coverage_spectral_helper[29] = True
         scale_by_freq = True
+    else:
+        coverage_spectral_helper[30] = True
 
     # For real x, ignore the negative frequencies unless told otherwise
     if sides == 'twosided':
+        coverage_spectral_helper[31] = True
         numFreqs = pad_to
         if pad_to % 2:
+            coverage_spectral_helper[32] = True
             freqcenter = (pad_to - 1)//2 + 1
         else:
+            coverage_spectral_helper[33] = True
             freqcenter = pad_to//2
         scaling_factor = 1.
     elif sides == 'onesided':
+        coverage_spectral_helper[34] = True
         if pad_to % 2:
+            coverage_spectral_helper[35] = True
             numFreqs = (pad_to + 1)//2
         else:
+            coverage_spectral_helper[36] = True
             numFreqs = pad_to//2 + 1
         scaling_factor = 2.
+    else:
+        coverage_spectral_helper[37] = True
 
     if not np.iterable(window):
+        coverage_spectral_helper[38] = True
         window = window(np.ones(NFFT, x.dtype))
+    else:
+        coverage_spectral_helper[39] = True
     if len(window) != NFFT:
+        coverage_spectral_helper[40] = True
+        with open(coverage_spectral_helper_file, "a+") as f:
+            f.write(str(coverage_spectral_helper) + "\n")
         raise ValueError(
             "The window length must match the data's first dimension")
-
+    else:
+        coverage_spectral_helper[41] = True
     result = _stride_windows(x, NFFT, noverlap)
     result = detrend(result, detrend_func, axis=0)
     result = result * window.reshape((-1, 1))
@@ -386,6 +450,7 @@ def _spectral_helper(x, y=None, NFFT=None, Fs=None, detrend_func=None,
     freqs = np.fft.fftfreq(pad_to, 1/Fs)[:numFreqs]
 
     if not same_data:
+        coverage_spectral_helper[42] = True
         # if same_data is False, mode must be 'psd'
         resultY = _stride_windows(y, NFFT, noverlap)
         resultY = detrend(resultY, detrend_func, axis=0)
@@ -393,16 +458,23 @@ def _spectral_helper(x, y=None, NFFT=None, Fs=None, detrend_func=None,
         resultY = np.fft.fft(resultY, n=pad_to, axis=0)[:numFreqs, :]
         result = np.conj(result) * resultY
     elif mode == 'psd':
+        coverage_spectral_helper[43] = True
         result = np.conj(result) * result
     elif mode == 'magnitude':
+        coverage_spectral_helper[44] = True
         result = np.abs(result) / window.sum()
     elif mode == 'angle' or mode == 'phase':
+        coverage_spectral_helper[45] = True
         # we unwrap the phase later to handle the onesided vs. twosided case
         result = np.angle(result)
     elif mode == 'complex':
+        coverage_spectral_helper[46] = True
         result /= window.sum()
+    else:
+        coverage_spectral_helper[47] = True
 
     if mode == 'psd':
+        coverage_spectral_helper[48] = True
 
         # Also include scaling factors for one-sided densities and dividing by
         # the sampling frequency, if desired. Scale everything, except the DC
@@ -410,9 +482,11 @@ def _spectral_helper(x, y=None, NFFT=None, Fs=None, detrend_func=None,
 
         # if we have a even number of frequencies, don't scale NFFT/2
         if not NFFT % 2:
+            coverage_spectral_helper[49] = True
             slc = slice(1, -1, None)
         # if we have an odd number, just don't scale DC
         else:
+            coverage_spectral_helper[50] = True
             slc = slice(1, None, None)
 
         result[slc] *= scaling_factor
@@ -421,28 +495,41 @@ def _spectral_helper(x, y=None, NFFT=None, Fs=None, detrend_func=None,
         # has units of dB/Hz and can be integrated by the plotted frequency
         # values. Perform the same scaling here.
         if scale_by_freq:
+            coverage_spectral_helper[51] = True
             result /= Fs
             # Scale the spectrum by the norm of the window to compensate for
             # windowing loss; see Bendat & Piersol Sec 11.5.2.
             result /= (window**2).sum()
         else:
+            coverage_spectral_helper[52] = True
             # In this case, preserve power in the segment, not amplitude
             result /= window.sum()**2
+    else:
+        coverage_spectral_helper[53] = True
 
     t = np.arange(NFFT/2, len(x) - NFFT/2 + 1, NFFT - noverlap)/Fs
 
     if sides == 'twosided':
+        coverage_spectral_helper[54] = True
         # center the frequency range at zero
         freqs = np.roll(freqs, -freqcenter, axis=0)
         result = np.roll(result, -freqcenter, axis=0)
     elif not pad_to % 2:
+        coverage_spectral_helper[55] = True
         # get the last value correctly, it is negative otherwise
         freqs[-1] *= -1
+    else:
+        coverage_spectral_helper[56] = True
 
     # we unwrap the phase here to handle the onesided vs. twosided case
     if mode == 'phase':
+        coverage_spectral_helper[57] = True
         result = np.unwrap(result, axis=0)
+    else:
+        coverage_spectral_helper[58] = True
 
+    with open(coverage_spectral_helper_file, "a+") as f:
+        f.write(str(coverage_spectral_helper) + "\n")
     return result, freqs, t
 
 
