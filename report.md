@@ -6,7 +6,7 @@ has to be delivered in a standard, cross-platform format.
 
 ## Project
 
-Name:
+Name: 
 
 URL:
 
@@ -26,11 +26,40 @@ for each project, along with reason(s) why you changed to a different one.
 
 1. What are your results for ten complex functions?
    * Did all methods (tools vs. manual count) get the same result?
+   * Answer: No, the methods did not get the same result, lizard always had a higher complexty score than the manual calculation. The reason for this might be that lizard counts more decisions than we do by hand.
    * Are the results clear?
+   * Answer: Yes, we get coherent results for the manual count. See results below:
+
+|Function | Manual count | Lizard |
+|---------|--------------|--------|
+|bar@_axes.py|M=31|34|
+|boxplot@_axes.py|M=32|35|
+|_to_rgba_no_colorcycle@colors.py|M=24|36|
+|hexbin@_axes.py|M=34|37|
+|_spectral_helper@mlab.py|M=37|39|
+
 2. Are the functions just complex, or also long?
+
+Answer: Most of the functions are very long. 
+
 3. What is the purpose of the functions?
+
+Answer: 
+
+|Function | Purpose |
+|---------|---------|
+|bar@_axes.py|Make a bar plot.|
+|boxplot@_axes.py|Draw a box and whisker plot.|
+|_to_rgba_no_colorcycle@colors.py|Convert parameter to an RGBA color, with no support for color-cycle syntax.|
+|hexbin@_axes.py|Make a 2D hexagonal binning plot of points x, y.|
+|_spectral_helper@mlab.py|Private helper implementing the common parts between the psd, csd, spectrogram and complex, magnitude, angle, and phase spectrums.|
 4. Are exceptions taken into account in the given measurements?
+
+Answer: Yes we have taken exceptions into account.
+
 5. Is the documentation clear w.r.t. all the possible outcomes?
+
+Answer: It differes between the functions examined. Private helper functions are not thoroughly documented.
 
 ## Refactoring
 
