@@ -1,5 +1,5 @@
 def main():
-    with open("coverage_spectral_helper.txt", "r") as f:
+    with open("to_rgba_no_colorcycle_helper.txt", "r") as f:
         contents = f.readlines()
         lists = [eval(i) for i in contents]
         out = [any(lists[:][i]) for i in range(len(lists[0]))]
