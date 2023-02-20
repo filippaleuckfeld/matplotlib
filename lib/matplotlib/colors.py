@@ -56,7 +56,7 @@ import numpy as np
 from matplotlib import _api, _cm, cbook, scale
 from ._color_data import BASE_COLORS, TABLEAU_COLORS, CSS4_COLORS, XKCD_COLORS
 
-from tests import to_rgba_no_colorcycle_helper, to_rgba_no_colorcycle_path
+from .tests import to_rgba_no_colorcycle_helper, to_rgba_no_colorcycle_path
 
 
 class _ColorMapping(dict):
