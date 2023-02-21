@@ -1,6 +1,6 @@
 from pathlib import Path
 
-coverage_spectral_helper = [False]*60
+coverage_spectral_helper = [False]*59
 coverage_spectral_helper_file = "./coverage_spectral_helper.txt"
 
 coverage_boxplot = [False]*58
