@@ -5179,23 +5179,21 @@ default: :rc:`scatter.edgecolors`
                 mincnt = 0
             else:
                 coverage_hexbin[26] = True
-            
-            # Rewritten accum = np.array
-            result = np.nan
-            if len(acc) > mincnt:
+
+            # Re-Rewritten accum = np.arra
+            accum = []
+            for Cs_at_i in [Cs_at_i1, Cs_at_i2]:
                 coverage_hexbin[27] = True
-                result = reduce_C_function(acc)
-            else:
-                coverage_hexbin[28] = True
-                result = np.nan
-            accum = np.array(
-                    [result
-                    for Cs_at_i in [Cs_at_i1, Cs_at_i2]
-                    for acc in Cs_at_i[1:]],
-                    float
-                    )
-            coverage_hexbin[29] = True
-            coverage_hexbin[30] = True
+                for acc in Cs_at_i[1:]:  # [1:] drops out-of-range points.
+                    coverage_hexbin[28] = True
+                    result = np.nan
+                    if len(acc) > mincnt:
+                        coverage_hexbin[29] = True
+                        result = reduce_C_function(acc)
+                    else:
+                        coverage_hexbin[30] = True
+                    accum.append(result)
+            accum = np.array(accum, float)
             #accum = np.array(
             #    [reduce_C_function(acc) if len(acc) > mincnt else np.nan
             #     for Cs_at_i in [Cs_at_i1, Cs_at_i2]
