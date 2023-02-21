@@ -3252,7 +3252,6 @@ def test_boxplot_autorange_whiskers():
 @image_comparison(['boxplot_1point1_whiskers.png',
                    'boxplot_0-100_whiskers.png'],
                   remove_text=True,
-                  extensions=['png'],
                   style='mpl20')
 def test_boxplot_custom_whis():
     # Randomness used for bootstrapping.
