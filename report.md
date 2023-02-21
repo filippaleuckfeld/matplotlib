@@ -35,40 +35,43 @@ We had different experiences building the project and running the tests. The onb
 
 1. What are your results for ten complex functions?
    * Did all methods (tools vs. manual count) get the same result?
-   * Answer: No, the methods did not get the same result, lizard always had a higher complexty score than the manual calculation. The reason for this might be that lizard counts more decisions than we do by hand.
-   * Are the results clear?
-   * Answer: Yes, we get coherent results for the manual count. See results below:
 
-|Function | Manual count | Lizard |
-|---------|--------------|--------|
-|bar@_axes.py|M=31|34|
-|boxplot@_axes.py|M=32|35|
-|_to_rgba_no_colorcycle@colors.py|M=24|36|
-|hexbin@_axes.py|M=34|37|
-|_spectral_helper@mlab.py|M=37|39|
+        * Answer: No, the methods did not get the same result, lizard always had a higher complexty score than the manual calculation. The reason for this might be that lizard counts more decisions than we do by hand.
+
+    * Are the results clear?
+
+        * Answer: Yes, we get coherent results for the manual count. See results below:
+
+            |Function | Manual count | Lizard |
+            |---------|--------------|--------|
+            |bar@_axes.py|M=31|34|
+            |boxplot@_axes.py|M=32|35|
+            |_to_rgba_no_colorcycle@colors.py|M=24|36|
+            |hexbin@_axes.py|M=34|37|
+            |_spectral_helper@mlab.py|M=37|39|
 
 2. Are the functions just complex, or also long?
 
-Answer: Most of the functions are very long.
+    * Answer: Most of the functions are very long.
 
 3. What is the purpose of the functions?
 
-Answer:
+    * Answer:
 
-|Function | Purpose |
-|---------|---------|
-|bar@_axes.py|Make a bar plot.|
-|boxplot@_axes.py|Draw a box and whisker plot.|
-|_to_rgba_no_colorcycle@colors.py|Convert parameter to an RGBA color, with no support for color-cycle syntax.|
-|hexbin@_axes.py|Make a 2D hexagonal binning plot of points x, y.|
-|_spectral_helper@mlab.py|Private helper implementing the common parts between the psd, csd, spectrogram and complex, magnitude, angle, and phase spectrums.|
+        |Function | Purpose |
+        |---------|---------|
+        |bar@_axes.py|Make a bar plot.|
+        |boxplot@_axes.py|Draw a box and whisker plot.|
+        |_to_rgba_no_colorcycle@colors.py|Convert parameter to an RGBA color, with no support for color-cycle syntax.|
+        |hexbin@_axes.py|Make a 2D hexagonal binning plot of points x, y.|
+        |_spectral_helper@mlab.py|Private helper implementing the common parts between the psd, csd, spectrogram and complex, magnitude, angle, and phase spectrums.|
 4. Are exceptions taken into account in the given measurements?
 
-Answer: Yes we have taken exceptions into account.
+    * Answer: Yes we have taken exceptions into account.
 
 5. Is the documentation clear w.r.t. all the possible outcomes?
 
-Answer: It differs between the functions examined. Private helper functions are not thoroughly documented.
+    * Answer: It differs between the functions examined. Private helper functions are not thoroughly documented.
 
 ## Refactoring
 
@@ -86,35 +89,42 @@ git diff ...
 
 Document your experience in using a "new"/different coverage tool.
 
-How well was the tool documented? Was it possible/easy/difficult to
+- How well was the tool documented? Was it possible/easy/difficult to
 integrate it with your build environment?
+
+    - An attempt was made to use `pytest-cov`, a plugin for pytest that matplotlib already uses. However, there doesn't seem to be a way to make it only do coverage for a single function, it uses files as atomic units. It also defaults to line coverage, not branch coverage, and its documentation and output are not particularly easy to interpret.
+Integrating it with the environment was easy, it's already done. But integrating it with this assignment didn't seem possible.
 
 ### Your own coverage tool
 
-Show a patch (or link to a branch) that shows the instrumented code to
-gather coverage measurements.
+DIY coverage implementation is modified source code, as can be seen in the [issue/17 branch](https://github.com/filippaleuckfeld/matplotlib/tree/issue/17).
 
-The patch is probably too long to be copied here, so please add
-the git command that is used to obtain the patch instead:
-
-git diff ...
-
-What kinds of constructs does your tool support, and how accurate is
+- What kinds of constructs does your tool support, and how accurate is
 its output?
+
+    - This works by setting a flag for each branch that is reached in an execution of the function and writing this information to a file.
+    The `accumulate_coverage.py` program then checks which flags have been set after all tests have been run. 
+    The tool supports if/else/while and for constructs, and those that can be rewritten as one of those, as long as the programmer can edit the execution branch to set the flag.
+    The accuracy of the coverage tool is therefore dependent on the programmer's implementation of each flag being set. It also can't know if certain branches are unreachable unless the programmer takes this into account.
 
 ### Evaluation
 
 1. How detailed is your coverage measurement?
+    * It depends on the implementation of flags being set. It will count the number of flags set out of the defined branches, and tell you which flags are not set.
 
 2. What are the limitations of your own tool?
+    * It takes a long time to set up, and impacts the performance of the code, since it requires adding instructions that are not necessary to the code's intended purpose.
+    * It also can't account for unreachable branches without the programmer telling it not to count those.
+    * Since it uses relative paths to store files, tests that run in their own directories will not have their results counted unless they're manually moved to the correct files.
 
 3. Are the results of your tool consistent with existing coverage tools?
+    * TODO: use existing coverage tool other than `pytest-cov`
 
 ## Coverage improvement
 
 Show the comments that describe the requirements for the coverage.
 
-Report of old coverage: [link]
+Report of old coverage: https://github.com/filippaleuckfeld/matplotlib/issues/17#issuecomment-1438609900
 
 Report of new coverage: [link]
 
