@@ -963,6 +963,7 @@ def test_hexbin_with_mincnt():
     fig, ax = plt.subplots()
     ax.hexbin(x, y, mincnt=1, gridsize=35, cmap="plasma") 
 
+
 # Can maybe add testing for negative x values with log?
 @image_comparison(["hexbin_log2.png"], remove_text=True)
 def test_hexbin_with_xscale_log():
@@ -971,6 +972,16 @@ def test_hexbin_with_xscale_log():
     fig, ax = plt.subplots()
     ax.hexbin(x, y, xscale="log", gridsize=35)
 
+    # Test that negative x-values raises error with log.
+    x = np.random.uniform(-1, 10, size=(1, 10000))
+    with pytest.raises(ValueError):
+        ax.hexbin(x, y, xscale="log", gridsize=35)
+
+    # Test that negative y-values raises error with log.
+    x = np.random.uniform(1, 10, size=(1, 10000))
+    y = np.random.uniform(-1, 10, size=(1, 10000))
+    with pytest.raises(ValueError):
+        ax.hexbin(x, y, yscale="log", gridsize=35)
 
 def test_inverted_limits():
     # Test gh:1553
