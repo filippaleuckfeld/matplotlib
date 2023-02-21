@@ -36,7 +36,7 @@ from matplotlib.axes._base import (
 from matplotlib.axes._secondary_axes import SecondaryAxis
 from matplotlib.container import BarContainer, ErrorbarContainer, StemContainer
 
-from matplotlib.tests import coverage_boxplot, coverage_boxplot_file, coverage_bar, coverage_bar_file
+from matplotlib.tests import coverage_boxplot, coverage_boxplot_file, coverage_bar, coverage_bar_file, coverage_hexbin_file, coverage_hexbin
 
 _log = logging.getLogger(__name__)
 
@@ -5049,10 +5049,15 @@ default: :rc:`scatter.edgecolors`
 
         x, y, C = cbook.delete_masked_points(x, y, C)
 
+        coverage_hexbin
+        coverage_hexbin_file
+
         # Set the size of the hexagon grid
         if np.iterable(gridsize):
+            coverage_hexbin[0] = True
             nx, ny = gridsize
         else:
+            coverage_hexbin[1] = True
             nx = gridsize
             ny = int(nx / math.sqrt(3))
         # Count the number of data in each hexagon
@@ -5064,21 +5069,51 @@ default: :rc:`scatter.edgecolors`
         ty = y
 
         if xscale == 'log':
+            coverage_hexbin[2] = True
             if np.any(x <= 0.0):
+                coverage_hexbin[3] = True
+                with open(coverage_hexbin_file, "a+") as f:
+                    f.write(str(coverage_hexbin) + "\n")
                 raise ValueError("x contains non-positive values, so can not "
                                  "be log-scaled")
+            else:
+                coverage_hexbin[4] = True
             tx = np.log10(tx)
+        else:
+            coverage_hexbin[5] = True
         if yscale == 'log':
+            coverage_hexbin[6] = True
             if np.any(y <= 0.0):
+                coverage_hexbin[7] = True
+                with open(coverage_hexbin_file, "a+") as f:
+                    f.write(str(coverage_hexbin) + "\n")
                 raise ValueError("y contains non-positive values, so can not "
                                  "be log-scaled")
+            else:
+                coverage_hexbin[8] = True
             ty = np.log10(ty)
+        else:
+            coverage_hexbin[9] = True
         if extent is not None:
+            coverage_hexbin[10] = True
             xmin, xmax, ymin, ymax = extent
         else:
-            xmin, xmax = (tx.min(), tx.max()) if len(x) else (0, 1)
-            ymin, ymax = (ty.min(), ty.max()) if len(y) else (0, 1)
-
+            # xmin, xmax = (tx.min(), tx.max()) if len(x) else (0, 1)
+            # ymin, ymax = (ty.min(), ty.max()) if len(y) else (0, 1)
+            coverage_hexbin[11] = True
+            if len(x):
+                coverage_hexbin[12] = True
+                xmin, xmax = (tx.min(), tx.max())
+            else:
+                coverage_hexbin[13] = True
+                xmin, xmax = (0, 1)
+            if len(y):
+                coverage_hexbin[14] = True
+                ymin, ymax = (ty.min(), ty.max())
+            else:
+                coverage_hexbin[15] = True
+                ymin, ymax = (0, 1)
+            
             # to avoid issues with singular data, expand the min/max pairs
             xmin, xmax = mtransforms.nonsingular(xmin, xmax, expander=0.1)
             ymin, ymax = mtransforms.nonsingular(ymin, ymax, expander=0.1)
@@ -5114,28 +5149,58 @@ default: :rc:`scatter.edgecolors`
         bdist = (d1 < d2)
 
         if C is None:  # [1:] drops out-of-range points.
+            coverage_hexbin[16] = True
             counts1 = np.bincount(i1[bdist], minlength=1 + nx1 * ny1)[1:]
             counts2 = np.bincount(i2[~bdist], minlength=1 + nx2 * ny2)[1:]
             accum = np.concatenate([counts1, counts2]).astype(float)
             if mincnt is not None:
+                coverage_hexbin[17] = True
                 accum[accum < mincnt] = np.nan
+            else:
+                coverage_hexbin[18] = True
             C = np.ones(len(x))
         else:
             # store the C values in a list per hexagon index
+            coverage_hexbin[19] = True
+            coverage_hexbin[20] = True # For-loop
             Cs_at_i1 = [[] for _ in range(1 + nx1 * ny1)]
+            coverage_hexbin[21] = True # For-loop
             Cs_at_i2 = [[] for _ in range(1 + nx2 * ny2)]
             for i in range(len(x)):
+                coverage_hexbin[22] = True
                 if bdist[i]:
+                    coverage_hexbin[23] = True
                     Cs_at_i1[i1[i]].append(C[i])
                 else:
+                    coverage_hexbin[24] = True
                     Cs_at_i2[i2[i]].append(C[i])
             if mincnt is None:
+                coverage_hexbin[25] = True
                 mincnt = 0
+            else:
+                coverage_hexbin[26] = True
+            
+            # Rewritten accum = np.array
+            result = np.nan
+            if len(acc) > mincnt:
+                coverage_hexbin[27] = True
+                result = reduce_C_function(acc)
+            else:
+                coverage_hexbin[28] = True
+                result = np.nan
             accum = np.array(
-                [reduce_C_function(acc) if len(acc) > mincnt else np.nan
-                 for Cs_at_i in [Cs_at_i1, Cs_at_i2]
-                 for acc in Cs_at_i[1:]],  # [1:] drops out-of-range points.
-                float)
+                    [result
+                    for Cs_at_i in [Cs_at_i1, Cs_at_i2]
+                    for acc in Cs_at_i[1:]],
+                    float
+                    )
+            coverage_hexbin[29] = True
+            coverage_hexbin[30] = True
+            #accum = np.array(
+            #    [reduce_C_function(acc) if len(acc) > mincnt else np.nan
+            #     for Cs_at_i in [Cs_at_i1, Cs_at_i2]
+            #     for acc in Cs_at_i[1:]],  # [1:] drops out-of-range points.
+            #    float)
 
         good_idxs = ~np.isnan(accum)
 
@@ -5156,26 +5221,37 @@ default: :rc:`scatter.edgecolors`
             [[.5, -.5], [.5, .5], [0., 1.], [-.5, .5], [-.5, -.5], [0., -1.]])
 
         if linewidths is None:
+            coverage_hexbin[31] = True
             linewidths = [1.0]
+        else:
+            coverage_hexbin[32] = True
 
         if xscale == 'log' or yscale == 'log':
+            coverage_hexbin[33] = True
             polygons = np.expand_dims(polygon, 0) + np.expand_dims(offsets, 1)
             if xscale == 'log':
+                coverage_hexbin[34] = True
                 polygons[:, :, 0] = 10.0 ** polygons[:, :, 0]
                 xmin = 10.0 ** xmin
                 xmax = 10.0 ** xmax
                 self.set_xscale(xscale)
+            else:
+                coverage_hexbin[35] = True
             if yscale == 'log':
+                coverage_hexbin[36] = True
                 polygons[:, :, 1] = 10.0 ** polygons[:, :, 1]
                 ymin = 10.0 ** ymin
                 ymax = 10.0 ** ymax
                 self.set_yscale(yscale)
+            else:
+                coverage_hexbin[37] = True
             collection = mcoll.PolyCollection(
                 polygons,
                 edgecolors=edgecolors,
                 linewidths=linewidths,
                 )
         else:
+            coverage_hexbin[38] = True
             collection = mcoll.PolyCollection(
                 [polygon],
                 edgecolors=edgecolors,
@@ -5187,26 +5263,42 @@ default: :rc:`scatter.edgecolors`
 
         # Set normalizer if bins is 'log'
         if bins == 'log':
+            coverage_hexbin[39] = True
             if norm is not None:
+                coverage_hexbin[40] = True
                 _api.warn_external("Only one of 'bins' and 'norm' arguments "
                                    f"can be supplied, ignoring bins={bins}")
             else:
+                coverage_hexbin[41] = True
                 norm = mcolors.LogNorm(vmin=vmin, vmax=vmax)
                 vmin = vmax = None
             bins = None
+        else:
+            coverage_hexbin[42] = True
 
         # autoscale the norm with current accum values if it hasn't been set
         if norm is not None:
+            coverage_hexbin[43] = True
             if norm.vmin is None and norm.vmax is None:
+                coverage_hexbin[44] = True
                 norm.autoscale(accum)
-
+            else:
+                coverage_hexbin[45] = True
+        else:
+            coverage_hexbin[46] = True
         if bins is not None:
+            coverage_hexbin[47] = True
             if not np.iterable(bins):
+                coverage_hexbin[48] = True
                 minimum, maximum = min(accum), max(accum)
                 bins -= 1  # one less edge than bins
                 bins = minimum + (maximum - minimum) * np.arange(bins) / bins
+            else:
+                coverage_hexbin[49] = True
             bins = np.sort(bins)
             accum = bins.searchsorted(accum)
+        else:
+            coverage_hexbin[50] = True
 
         collection.set_array(accum)
         collection.set_cmap(cmap)
@@ -5222,18 +5314,26 @@ default: :rc:`scatter.edgecolors`
         # add the collection last
         self.add_collection(collection, autolim=False)
         if not marginals:
+            coverage_hexbin[51] = True
+            with open(coverage_hexbin_file, "a+") as f:
+                f.write(str(coverage_hexbin) + "\n")
             return collection
+        else:
+            coverage_hexbin[52] = True
 
         # Process marginals
         bars = []
+        
         for zname, z, zmin, zmax, zscale, nbins in [
                 ("x", x, xmin, xmax, xscale, nx),
                 ("y", y, ymin, ymax, yscale, 2 * ny),
         ]:
-
+            coverage_hexbin[53] = True
             if zscale == "log":
+                coverage_hexbin[54] = True
                 bin_edges = np.geomspace(zmin, zmax, nbins + 1)
             else:
+                coverage_hexbin[55] = True
                 bin_edges = np.linspace(zmin, zmax, nbins + 1)
 
             verts = np.empty((nbins, 4, 2))
@@ -5242,16 +5342,26 @@ default: :rc:`scatter.edgecolors`
             verts[:, 0, 1] = verts[:, 3, 1] = .00
             verts[:, 1, 1] = verts[:, 2, 1] = .05
             if zname == "y":
+                coverage_hexbin[56] = True
                 verts = verts[:, :, ::-1]  # Swap x and y.
+            else:
+                coverage_hexbin[57] = True
 
             # Sort z-values into bins defined by bin_edges.
             bin_idxs = np.searchsorted(bin_edges, z) - 1
             values = np.empty(nbins)
             for i in range(nbins):
+                coverage_hexbin[58] = True
                 # Get C-values for each bin, and compute bin value with
                 # reduce_C_function.
                 ci = C[bin_idxs == i]
-                values[i] = reduce_C_function(ci) if len(ci) > 0 else np.nan
+                if len(ci) > 0:
+                    coverage_hexbin[59] = True
+                    values[i] = reduce_C_function(ci)
+                else:
+                    coverage_hexbin[60] = True
+                    values[i] = np.nan
+                # values[i] = reduce_C_function(ci) if len(ci) > 0 else np.nan
 
             mask = ~np.isnan(values)
             verts = verts[mask]
@@ -5277,6 +5387,8 @@ default: :rc:`scatter.edgecolors`
 
         collection.callbacks.connect('changed', on_changed)
 
+        with open(coverage_hexbin_file, "a+") as f:
+            f.write(str(coverage_hexbin) + "\n")
         return collection
 
     @_docstring.dedent_interpd
