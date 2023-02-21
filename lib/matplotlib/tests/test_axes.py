@@ -956,6 +956,21 @@ def test_hexbin_log_clim():
     h = ax.hexbin(x, y, bins='log', vmin=2, vmax=100)
     assert h.get_clim() == (2, 100)
 
+# Lab 3 added test!!
+@image_comparison(["hexbin_mincnt.png"], remove_text=True)
+def test_hexbin_with_mincnt():
+    x, y = np.arange(200).reshape((2, 100))
+    fig, ax = plt.subplots()
+    ax.hexbin(x, y, mincnt=1, gridsize=35, cmap="plasma") 
+
+# Can maybe add testing for negative x values with log?
+@image_comparison(["hexbin_log2.png"], remove_text=True)
+def test_hexbin_with_xscale_log():
+    x = np.random.uniform(1, 10, size=(1, 10000))
+    y = np.random.uniform(1, 10, size=(1, 10000))
+    fig, ax = plt.subplots()
+    ax.hexbin(x, y, xscale="log", gridsize=35)
+
 
 def test_inverted_limits():
     # Test gh:1553

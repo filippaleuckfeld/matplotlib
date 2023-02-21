@@ -1,5 +1,7 @@
 from pathlib import Path
 
+coverage_hexbin = [False]*61
+coverage_hexbin_file = "./coverage_hexbin_file.txt"
 
 # Check that the test directories exist.
 if not (Path(__file__).parent / 'baseline_images').exists():
