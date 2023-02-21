@@ -354,7 +354,6 @@ def _to_rgba_no_colorcycle(c, alpha=None):
             else:
                 to_rgba_no_colorcycle_helper[9] = True
     else:
-        # THIS IS NOT TESTED
         to_rgba_no_colorcycle_helper[3] = True
     if isinstance(c, str):
         to_rgba_no_colorcycle_helper[12] = True
@@ -392,7 +391,6 @@ def _to_rgba_no_colorcycle(c, alpha=None):
                 to_rgba_no_colorcycle_helper[20] = True
                 color[-1] = alpha
             else:
-                # THIS IS NOT TESTED
                 to_rgba_no_colorcycle_helper[21] = True
             with open(to_rgba_no_colorcycle_helper, 'a+') as f:
                 f.write(str(to_rgba_no_colorcycle_helper))
@@ -412,7 +410,6 @@ def _to_rgba_no_colorcycle(c, alpha=None):
                 to_rgba_no_colorcycle_helper[25] = True
                 color[-1] = alpha
             else:
-                # THIS IS NOT TESTED
                 to_rgba_no_colorcycle_helper[26] = True
             with open(to_rgba_no_colorcycle_path, 'a+') as f:
                 f.write(str(to_rgba_no_colorcycle_helper))
