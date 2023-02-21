@@ -394,7 +394,7 @@ def _to_rgba_no_colorcycle(c, alpha=None):
             else:
                 # THIS IS NOT TESTED
                 to_rgba_no_colorcycle_helper[21] = True
-            with open(to_rgba_no_colorcycle_helper, 'a+') as f:
+            with open(to_rgba_no_colorcycle_path, 'a+') as f:
                 f.write(str(to_rgba_no_colorcycle_helper))
                 f.write('\n')
             return tuple(color)
