@@ -1,15 +1,15 @@
 # Report for assignment 3, Group 1
 
-Assignment 3 is about code coverage and complexity. 
+Assignment 3 is about code coverage and complexity.
 
 Contributions from the members of Group 1 are:
 
-- David Kaméus 
-    - 
+- David Kaméus
+    -
 - Alexander Binett
-    - 
+    -
 - Filippa Leuckfeld
-    - 
+    -
 - Håvard Alstadheim
     -
 - Carin Bystam
@@ -29,8 +29,7 @@ matplotlib is a python library for creating plots and graphs easily.
 
 ### Did it build and run as documented?
 
-We had different experiences building the project and running the tests.
-TODO: add details
+We had different experiences building the project and running the tests. The onboarding process was good for non mac users. For mac users we experienced some problems, for example that we had spaces in the file path to the project which was not documented as a problem. There were also some issues with downloading packages with the m1 processor.
 
 ## Complexity
 
@@ -50,11 +49,11 @@ TODO: add details
 
 2. Are the functions just complex, or also long?
 
-Answer: Most of the functions are very long. 
+Answer: Most of the functions are very long.
 
 3. What is the purpose of the functions?
 
-Answer: 
+Answer:
 
 |Function | Purpose |
 |---------|---------|
@@ -69,7 +68,7 @@ Answer: Yes we have taken exceptions into account.
 
 5. Is the documentation clear w.r.t. all the possible outcomes?
 
-Answer: It differes between the functions examined. Private helper functions are not thoroughly documented.
+Answer: It differs between the functions examined. Private helper functions are not thoroughly documented.
 
 ## Refactoring
 
