@@ -79,6 +79,15 @@ Plan for refactoring complex code:
 
 Estimated impact of refactoring (lower CC, but other drawbacks?).
 
+### boxplot in _axes.py
+
+Two ideas for refactoring:
+
+1. The last two big if clauses (combined 26 rows) set values in the `bxpstats` dict based on the `usermedians` and `conf_intervals` parameters. These could be broken out into one or two separate functions.
+2. The `if sym is not None:` if clause contains several other branching points. Its purpose is to set the flierprops dict. This dict could be returned from a different function instead.
+
+The main benefit of implementing these refactors would be lowering the CC count by a total of 16, and also reducing the number of lines of code in the function. One drawback of implementing either of these changes could be a slight performance loss due to passing (potentially somewhat large) dicts or other values to and from the added functions, but this can be mitigated by passing references instead of copies.
+
 Carried out refactoring (optional, P+):
 
 git diff ...
@@ -103,7 +112,7 @@ DIY coverage implementation is modified source code, as can be seen in the [issu
 its output?
 
     - This works by setting a flag for each branch that is reached in an execution of the function and writing this information to a file.
-    The `accumulate_coverage.py` program then checks which flags have been set after all tests have been run. 
+    The `accumulate_coverage.py` program then checks which flags have been set after all tests have been run.
     The tool supports if/else/while and for constructs, and those that can be rewritten as one of those, as long as the programmer can edit the execution branch to set the flag.
     The accuracy of the coverage tool is therefore dependent on the programmer's implementation of each flag being set. It also can't know if certain branches are unreachable unless the programmer takes this into account.
 
