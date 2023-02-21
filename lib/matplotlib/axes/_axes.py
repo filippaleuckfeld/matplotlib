@@ -36,7 +36,7 @@ from matplotlib.axes._base import (
 from matplotlib.axes._secondary_axes import SecondaryAxis
 from matplotlib.container import BarContainer, ErrorbarContainer, StemContainer
 
-from matplotlib.tests import coverage_hexbin_file, coverage_hexbin
+from matplotlib.tests import coverage_boxplot, coverage_boxplot_file, coverage_bar, coverage_bar_file, coverage_hexbin_file, coverage_hexbin
 
 _log = logging.getLogger(__name__)
 
@@ -2347,10 +2347,14 @@ class Axes(_AxesBase):
         Stacked bars can be achieved by passing individual *bottom* values per
         bar. See :doc:`/gallery/lines_bars_and_markers/bar_stacked`.
         """
+
         kwargs = cbook.normalize_kwargs(kwargs, mpatches.Patch)
         color = kwargs.pop('color', None)
         if color is None:
+            coverage_bar[0] = True
             color = self._get_patches_for_fill.get_next_color()
+        else:
+            coverage_bar[1] = True
         edgecolor = kwargs.pop('edgecolor', None)
         linewidth = kwargs.pop('linewidth', None)
         hatch = kwargs.pop('hatch', None)
@@ -2362,11 +2366,17 @@ class Axes(_AxesBase):
         error_kw = kwargs.pop('error_kw', {})
         ezorder = error_kw.pop('zorder', None)
         if ezorder is None:
+            coverage_bar[2] = True
             ezorder = kwargs.get('zorder', None)
             if ezorder is not None:
+                coverage_bar[3] = True
                 # If using the bar zorder, increment slightly to make sure
                 # errorbars are drawn on top of bars
                 ezorder += 0.01
+            else:
+                coverage_bar[4] = True
+        else:
+            coverage_bar[5] = True # potential test
         error_kw.setdefault('zorder', ezorder)
         ecolor = kwargs.pop('ecolor', 'k')
         capsize = kwargs.pop('capsize', mpl.rcParams["errorbar.capsize"])
@@ -2384,37 +2394,64 @@ class Axes(_AxesBase):
 
         y = bottom  # Matches barh call signature.
         if orientation == 'vertical':
+            coverage_bar[6] = True
             if y is None:
+                coverage_bar[7] = True
                 y = 0
+            else:
+                coverage_bar[8] = True
         else:  # horizontal
+            coverage_bar[9] = True
             if x is None:
+                coverage_bar[10] = True
                 x = 0
-
+            else:
+                coverage_bar[11] = True
         if orientation == 'vertical':
+            coverage_bar[12] = True
             self._process_unit_info(
                 [("x", x), ("y", height)], kwargs, convert=False)
             if log:
+                coverage_bar[13] = True
                 self.set_yscale('log', nonpositive='clip')
+            else:
+                coverage_bar[14] = True
         else:  # horizontal
+            coverage_bar[15] = True
             self._process_unit_info(
                 [("x", width), ("y", y)], kwargs, convert=False)
             if log:
+                coverage_bar[16] = True # potential test
                 self.set_xscale('log', nonpositive='clip')
+            else:
+                coverage_bar[17] = True
 
         # lets do some conversions now since some types cannot be
         # subtracted uniformly
         if self.xaxis is not None:
+            coverage_bar[18] = True
             x0 = x
             x = np.asarray(self.convert_xunits(x))
             width = self._convert_dx(width, x0, x, self.convert_xunits)
             if xerr is not None:
+                coverage_bar[19] = True
                 xerr = self._convert_dx(xerr, x0, x, self.convert_xunits)
+            else:
+                coverage_bar[20] = True
+        else:
+            coverage_bar[21] = True # potential test
         if self.yaxis is not None:
+            coverage_bar[22] = True
             y0 = y
             y = np.asarray(self.convert_yunits(y))
             height = self._convert_dx(height, y0, y, self.convert_yunits)
             if yerr is not None:
+                coverage_bar[23] = True
                 yerr = self._convert_dx(yerr, y0, y, self.convert_yunits)
+            else:
+                coverage_bar[24] = True
+        else:
+            coverage_bar[25] = True # potential test
 
         x, height, width, y, linewidth, hatch = np.broadcast_arrays(
             # Make args iterable too.
@@ -2422,21 +2459,30 @@ class Axes(_AxesBase):
 
         # Now that units have been converted, set the tick locations.
         if orientation == 'vertical':
+            coverage_bar[26] = True
             tick_label_axis = self.xaxis
             tick_label_position = x
         else:  # horizontal
+            coverage_bar[27] = True
             tick_label_axis = self.yaxis
             tick_label_position = y
 
         if not isinstance(label, str) and np.iterable(label):
+            coverage_bar[28] = True
             bar_container_label = '_nolegend_'
             patch_labels = label
         else:
+            coverage_bar[29] = True
             bar_container_label = label
             patch_labels = ['_nolegend_'] * len(x)
         if len(patch_labels) != len(x):
+            coverage_bar[30] = True
+            with open(coverage_bar_file, "a+") as f:
+	            f.write(str(coverage_bar) + "\n")
             raise ValueError(f'number of labels ({len(patch_labels)}) '
                              f'does not match number of bars ({len(x)}).')
+        else:
+            coverage_bar[31] = True
 
         linewidth = itertools.cycle(np.atleast_1d(linewidth))
         hatch = itertools.cycle(np.atleast_1d(hatch))
@@ -2444,8 +2490,10 @@ class Axes(_AxesBase):
                                 # Fallback if color == "none".
                                 itertools.repeat('none'))
         if edgecolor is None:
+            coverage_bar[32] = True
             edgecolor = itertools.repeat(None)
         else:
+            coverage_bar[33] = True
             edgecolor = itertools.chain(
                 itertools.cycle(mcolors.to_rgba_array(edgecolor)),
                 # Fallback if edgecolor == "none".
@@ -2455,23 +2503,35 @@ class Axes(_AxesBase):
         # left, bottom, width, height vectors
         _api.check_in_list(['center', 'edge'], align=align)
         if align == 'center':
+            coverage_bar[34] = True
             if orientation == 'vertical':
+                coverage_bar[35] = True
                 try:
+                    coverage_bar[36] = True
                     left = x - width / 2
                 except TypeError as e:
+                    coverage_bar[37] = True # potential test
+                    with open(coverage_bar_file, "a+") as f:
+	                    f.write(str(coverage_bar) + "\n")
                     raise TypeError(f'the dtypes of parameters x ({x.dtype}) '
                                     f'and width ({width.dtype}) '
                                     f'are incompatible') from e
                 bottom = y
             else:  # horizontal
+                coverage_bar[38] = True
                 try:
+                    coverage_bar[39] = True
                     bottom = y - height / 2
                 except TypeError as e:
+                    coverage_bar[40] = True # potential test
+                    with open(coverage_bar_file, "a+") as f:
+	                    f.write(str(coverage_bar) + "\n")
                     raise TypeError(f'the dtypes of parameters y ({y.dtype}) '
                                     f'and height ({height.dtype}) '
                                     f'are incompatible') from e
                 left = x
         else:  # edge
+            coverage_bar[41] = True
             left = x
             bottom = y
 
@@ -2479,6 +2539,7 @@ class Axes(_AxesBase):
         args = zip(left, bottom, width, height, color, edgecolor, linewidth,
                    hatch, patch_labels)
         for l, b, w, h, c, e, lw, htch, lbl in args:
+            coverage_bar[42] = True
             r = mpatches.Rectangle(
                 xy=(l, b), width=w, height=h,
                 facecolor=c,
@@ -2490,22 +2551,31 @@ class Axes(_AxesBase):
             r._internal_update(kwargs)
             r.get_path()._interpolation_steps = 100
             if orientation == 'vertical':
+                coverage_bar[43] = True
                 r.sticky_edges.y.append(b)
             else:  # horizontal
+                coverage_bar[44] = True
                 r.sticky_edges.x.append(l)
             self.add_patch(r)
             patches.append(r)
 
         if xerr is not None or yerr is not None:
+            coverage_bar[45] = True
             if orientation == 'vertical':
+                coverage_bar[46] = True
                 # using list comps rather than arrays to preserve unit info
                 ex = [l + 0.5 * w for l, w in zip(left, width)]
+                coverage_bar[47] = True
                 ey = [b + h for b, h in zip(bottom, height)]
+                coverage_bar[48] = True
 
             else:  # horizontal
+                coverage_bar[49] = True
                 # using list comps rather than arrays to preserve unit info
                 ex = [l + w for l, w in zip(left, width)]
+                coverage_bar[50] = True
                 ey = [b + 0.5 * h for b, h in zip(bottom, height)]
+                coverage_bar[51] = True
 
             error_kw.setdefault("label", '_nolegend_')
 
@@ -2513,13 +2583,16 @@ class Axes(_AxesBase):
                                      yerr=yerr, xerr=xerr,
                                      fmt='none', **error_kw)
         else:
+            coverage_bar[52] = True
             errorbar = None
 
         self._request_autoscale_view()
 
         if orientation == 'vertical':
+            coverage_bar[53] = True
             datavalues = height
         else:  # horizontal
+            coverage_bar[54] = True
             datavalues = width
 
         bar_container = BarContainer(patches, errorbar, datavalues=datavalues,
@@ -2528,10 +2601,16 @@ class Axes(_AxesBase):
         self.add_container(bar_container)
 
         if tick_labels is not None:
+            coverage_bar[55] = True
             tick_labels = np.broadcast_to(tick_labels, len(patches))
             tick_label_axis.set_ticks(tick_label_position)
             tick_label_axis.set_ticklabels(tick_labels)
+        else:
+            coverage_bar[56] = True
 
+        with open(coverage_bar_file, "a+") as f:
+	        f.write(str(coverage_bar) + "\n")
+        
         return bar_container
 
     # @_preprocess_data() # let 'bar' do the unpacking..
@@ -3907,49 +3986,105 @@ class Axes(_AxesBase):
         --------
         violinplot : Draw an estimate of the probability density function.
         """
+        coverage_boxplot
+        coverage_boxplot_file
 
         # Missing arguments default to rcParams.
         if whis is None:
+            coverage_boxplot[0] = True
             whis = mpl.rcParams['boxplot.whiskers']
+        else:
+            coverage_boxplot[1] = True
         if bootstrap is None:
+            coverage_boxplot[2] = True
             bootstrap = mpl.rcParams['boxplot.bootstrap']
+        else:
+            coverage_boxplot[3] = True
 
         bxpstats = cbook.boxplot_stats(x, whis=whis, bootstrap=bootstrap,
                                        labels=labels, autorange=autorange)
         if notch is None:
+            coverage_boxplot[4] = True
             notch = mpl.rcParams['boxplot.notch']
+        else:
+            coverage_boxplot[5] = True
         if vert is None:
+            coverage_boxplot[6] = True
             vert = mpl.rcParams['boxplot.vertical']
+        else:
+            coverage_boxplot[7] = True
         if patch_artist is None:
+            coverage_boxplot[8] = True
             patch_artist = mpl.rcParams['boxplot.patchartist']
+        else:
+            coverage_boxplot[9] = True
         if meanline is None:
+            coverage_boxplot[10] = True
             meanline = mpl.rcParams['boxplot.meanline']
+        else:
+            coverage_boxplot[11] = True
         if showmeans is None:
+            coverage_boxplot[12] = True
             showmeans = mpl.rcParams['boxplot.showmeans']
+        else:
+            coverage_boxplot[13] = True
         if showcaps is None:
+            coverage_boxplot[14] = True
             showcaps = mpl.rcParams['boxplot.showcaps']
+        else:
+            coverage_boxplot[15] = True
         if showbox is None:
+            coverage_boxplot[16] = True
             showbox = mpl.rcParams['boxplot.showbox']
+        else:
+            coverage_boxplot[17] = True
         if showfliers is None:
+            coverage_boxplot[18] = True
             showfliers = mpl.rcParams['boxplot.showfliers']
+        else:
+            coverage_boxplot[19] = True
 
         if boxprops is None:
+            coverage_boxplot[20] = True
             boxprops = {}
+        else:
+            coverage_boxplot[21] = True
         if whiskerprops is None:
+            coverage_boxplot[22] = True
             whiskerprops = {}
+        else:
+            coverage_boxplot[23] = True
         if capprops is None:
+            coverage_boxplot[24] = True
             capprops = {}
+        else:
+            coverage_boxplot[25] = True
         if medianprops is None:
+            coverage_boxplot[26] = True
             medianprops = {}
+        else:
+            coverage_boxplot[27] = True
         if meanprops is None:
+            coverage_boxplot[28] = True
             meanprops = {}
+        else:
+            coverage_boxplot[29] = True
         if flierprops is None:
+            coverage_boxplot[30] = True
             flierprops = {}
+        else:
+            coverage_boxplot[31] = True
 
         if patch_artist:
+            coverage_boxplot[32] = True
             boxprops['linestyle'] = 'solid'  # Not consistent with bxp.
             if 'color' in boxprops:
+                coverage_boxplot[33] = True
                 boxprops['edgecolor'] = boxprops.pop('color')
+            else:
+                coverage_boxplot[34] = True
+        else:
+            coverage_boxplot[35] = True
 
         # if non-default sym value, put it into the flier dictionary
         # the logic for providing the default symbol ('b+') now lives
@@ -3957,58 +4092,93 @@ class Axes(_AxesBase):
         # handle all of the *sym* related logic here so we only have to pass
         # on the flierprops dict.
         if sym is not None:
+            coverage_boxplot[36] = True
             # no-flier case, which should really be done with
             # 'showfliers=False' but none-the-less deal with it to keep back
             # compatibility
             if sym == '':
+                coverage_boxplot[37] = True
                 # blow away existing dict and make one for invisible markers
                 flierprops = dict(linestyle='none', marker='', color='none')
                 # turn the fliers off just to be safe
                 showfliers = False
             # now process the symbol string
             else:
+                coverage_boxplot[38] = True
                 # process the symbol string
                 # discarded linestyle
                 _, marker, color = _process_plot_format(sym)
                 # if we have a marker, use it
                 if marker is not None:
+                    coverage_boxplot[39] = True
                     flierprops['marker'] = marker
+                else:
+                    coverage_boxplot[40] = True
                 # if we have a color, use it
                 if color is not None:
+                    coverage_boxplot[41] = True
                     # assume that if color is passed in the user want
                     # filled symbol, if the users want more control use
                     # flierprops
                     flierprops['color'] = color
                     flierprops['markerfacecolor'] = color
                     flierprops['markeredgecolor'] = color
+                else:
+                    coverage_boxplot[42] = True
 
         # replace medians if necessary:
         if usermedians is not None:
+            coverage_boxplot[43] = True
             if (len(np.ravel(usermedians)) != len(bxpstats) or
                     np.shape(usermedians)[0] != len(bxpstats)):
+                coverage_boxplot[44] = True
+                with open(coverage_boxplot_file, "a+") as f:
+                    f.write(str(coverage_boxplot) + "\n")
                 raise ValueError(
                     "'usermedians' and 'x' have different lengths")
             else:
+                coverage_boxplot[45] = True
                 # reassign medians as necessary
                 for stats, med in zip(bxpstats, usermedians):
                     if med is not None:
+                        coverage_boxplot[46] = True
                         stats['med'] = med
+                    else:
+                        coverage_boxplot[47] = True
 
         if conf_intervals is not None:
+            coverage_boxplot[48] = True
             if len(conf_intervals) != len(bxpstats):
+                coverage_boxplot[49] = True
+                with open(coverage_boxplot_file, "a+") as f:
+                    f.write(str(coverage_boxplot) + "\n")
                 raise ValueError(
                     "'conf_intervals' and 'x' have different lengths")
             else:
+                coverage_boxplot[50] = True
                 for stats, ci in zip(bxpstats, conf_intervals):
                     if ci is not None:
+                        coverage_boxplot[51] = True
                         if len(ci) != 2:
+                            coverage_boxplot[52] = True
+                            with open(coverage_boxplot_file, "a+") as f:
+                                f.write(str(coverage_boxplot) + "\n")
                             raise ValueError('each confidence interval must '
                                              'have two values')
                         else:
+                            coverage_boxplot[53] = True
                             if ci[0] is not None:
+                                coverage_boxplot[54] = True
                                 stats['cilo'] = ci[0]
+                            else:
+                                coverage_boxplot[55] = True
                             if ci[1] is not None:
+                                coverage_boxplot[56] = True
                                 stats['cihi'] = ci[1]
+                            else:
+                                coverage_boxplot[57] = True
+                    else:
+                        coverage_boxplot[58] = True
 
         artists = self.bxp(bxpstats, positions=positions, widths=widths,
                            vert=vert, patch_artist=patch_artist,
@@ -4020,6 +4190,8 @@ class Axes(_AxesBase):
                            capprops=capprops, whiskerprops=whiskerprops,
                            manage_ticks=manage_ticks, zorder=zorder,
                            capwidths=capwidths)
+        with open(coverage_boxplot_file, "a+") as f:
+            f.write(str(coverage_boxplot) + "\n")
         return artists
 
     def bxp(self, bxpstats, positions=None, widths=None, vert=True,
