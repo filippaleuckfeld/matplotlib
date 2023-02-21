@@ -115,3 +115,9 @@ lib/matplotlib/backends/web_backend/node_modules/
 lib/matplotlib/backends/web_backend/package-lock.json
 
 LICENSE/LICENSE_QHULL
+
+venv/
+agg.pdf
+lib/matplotlib/tests/tinypages/to_rgba_no_colorcycle_helper.txt
+lib/matplotlib/tests/to_rgba_no_colorcycle_helper.txt
+to_rgba_no_colorcycle_helper.txt

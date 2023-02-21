@@ -1,5 +1,5 @@
 def main():
-    filenames = ["coverage_boxplot.txt", "coverage_spectral_helper.txt"]
+    filenames = ["coverage_boxplot.txt", "coverage_spectral_helper.txt", "to_rgba_no_colorcycle_helper.txt"]
     for name in filenames:
         with open(name, "r") as f:
             contents = f.readlines()
