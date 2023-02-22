@@ -112,7 +112,7 @@ We had different experiences building the project and running the tests. The onb
 
 ### `_to_rgba_no_colorcycle` in colors.py
 - Ideas for refactoring:
-    - Create helper functions for common operations. For example the format of the hex is checked several times using regular expression, this can be moved to seperate helper functions to make the code more readable.
+    - Create helper functions for common operations. For example the format of the hex is checked several times using regular expression, this can be moved to separate helper functions to make the code more readable.
     - Extract common code blocks to a separate function. There are four hex color formats that are checked in the function. The code that converts each hex color format to an RGBA tuple is very similar. You could extract this code to a separate function to avoid duplication.
     - Reformat the tests. The testing is very unstructured at the moment and could be rewritten in a simpler more readable way.
 
@@ -162,17 +162,21 @@ its output?
 
 ## Coverage improvement
 
-Show the comments that describe the requirements for the coverage.
+The functions from matplotlib contain extensive documentation and specifications about their behavior. This can be seen in the code.
 
-Report of old coverage: https://github.com/filippaleuckfeld/matplotlib/issues/17#issuecomment-1438609900
+Report of old coverage for all tests: https://github.com/filippaleuckfeld/matplotlib/issues/17#issuecomment-1438609900
 
-Report of new coverage: [link]
+Report of new coverage:
+
+Addition of [test_boxplot_custom_whis](https://github.com/filippaleuckfeld/matplotlib/issues/19#issuecomment-1437724172) shows an expected improvement compared to baseline (1 more branch covered).
+
+Addition of [test_boxplot_empty_sym](https://github.com/filippaleuckfeld/matplotlib/issues/32#issuecomment-1438667248) also shows 1 more branch covered compared to baseline.
 
 Test cases added:
 
-git diff ...
+The implementation of test_boxplot_custom_whis can be seen [in this commit](https://github.com/filippaleuckfeld/matplotlib/commit/a2f23061999e9a5764463d6d79420028cace88a2).
 
-Number of test cases added: two per team member (P) or at least four (P+).
+The implementation of test_boxplot_empty_sym can be seen [in this commit](https://github.com/filippaleuckfeld/matplotlib/commit/555dcdcc41f270c1760a1d9c8278cc41f5cdafb5)
 
 ## Self-assessment: Way of working
 
