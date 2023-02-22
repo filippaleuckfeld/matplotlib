@@ -16,7 +16,10 @@ Contributions from the members of Group 1 are:
     - Made two tests, one for `legend` and one for `bar`, both in `_axes`. The tests are named `test_legend_arg_len` and `test_set_xscale_if_log`.
 
 - Filippa Leuckfeld
-    -
+    - Counted cyclomatic complexiry for `_to_rgba_no_colorcycle` in `colors.py` and `_spectral_helper`in `mlab.py`
+    - Coverage and refactoring ideas for `_to_rgba_no_colorcycle.`
+    - Made two tests for `_to_rgba_no_colorcycle`. The tests are named `test_color_hex8_and_alpha`and `test_color_hex4_and_alpha`.
+
 - Håvard Alstadheim
     -
 - Carin Bystam
