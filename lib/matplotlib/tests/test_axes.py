@@ -3247,6 +3247,18 @@ def test_boxplot_sym():
     ax.set_ylim((-30, 30))
 
 
+@image_comparison(['boxplot_empty_sym.png'],
+                  remove_text=True,
+                  style='mpl20')
+def test_boxplot_empty_sym():
+    x = np.linspace(-7, 7, 140)
+    x = np.hstack([-25, x, 25])
+    fig, ax = plt.subplots()
+
+    ax.boxplot([x, x], sym='')
+    ax.set_ylim((-30, 30))
+
+
 @image_comparison(['boxplot_autorange_false_whiskers.png',
                    'boxplot_autorange_true_whiskers.png'],
                   style='default')
