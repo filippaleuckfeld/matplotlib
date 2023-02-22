@@ -1597,3 +1597,10 @@ def test_cm_set_cmap_error():
     bad_cmap = 'AardvarksAreAwkward'
     with pytest.raises(ValueError, match=bad_cmap):
         sm.set_cmap(bad_cmap)
+
+
+def test_colors():
+    c = "#1234ab80"
+    alpha = 0.5
+
+    assert mcolors.to_hex(mcolors.to_rgba(c,alpha), alpha) == c
