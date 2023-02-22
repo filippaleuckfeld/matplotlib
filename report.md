@@ -100,6 +100,16 @@ We had different experiences building the project and running the tests. The onb
 - Estimated impact
     - The main benefit of implementing these refactors would be lowering the CC count by a total of 16, and also reducing the number of lines of code in the function. One drawback of implementing either of these changes could be a slight performance loss due to passing (potentially somewhat large) dicts or other values to and from the added functions, but this can be mitigated by passing references instead of copies.
 
+### hexbin in _axes.py
+
+For refactoring in hexbin, there are two ideas:
+1. The if clause that handles the C parameter is quite large, and contains 15 branches, which is almost 1/4 of all branches in hexbin. As it creates an array `accum` depending on the C parameter, it could be separated into its own function which returns the final `accum` array, and thus reduces the complexity of hexbin.
+2. There is also quite a large for-loop at the end which handles marginals and appends the info into an pre-initalized list `bars`. As it contains 8 branches, it could perhaps also be separated into its own function that returns an array `bars`.
+
+Implementing these steps would decrease the CC of hexbin by 15. The resulting CC would then be 22 (going by Lizards results). The length of hexbin would reduce by around 60 lines, so while the function would still be long after the refactorings, it is perhaps a bit more manageable than its current length of 188 lines.
+
+As with boxplot, a drawback could be that it would be some performance loss due to sending potentially large arrays and other required values to the functions. 
+
 Carried out refactoring (optional, P+):
 
 git diff ...
