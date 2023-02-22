@@ -5,15 +5,32 @@ Assignment 3 is about code coverage and complexity.
 Contributions from the members of Group 1 are:
 
 - David Kaméus
-    -
+
+    - ad-hoc coverage tool structure
+    - complexity, coverage and refactoring for `_spectral_helper`
+    - two tests for `hexbin`: `test_hexbin_C_no_mincnt`, `test_hexbin_C_mincnt`
 - Alexander Binett
-    -
+
+    - Counted cyclomatic complexity for `hexbin` and `bar` in `_axes`.
+    - Coverage and refactoring ideas for `bar`.
+    - Made two tests, one for `legend` and one for `bar`, both in `_axes`. The tests are named `test_legend_arg_len` and `test_set_xscale_if_log`.
+
 - Filippa Leuckfeld
-    -
+    - Counted cyclomatic complexiry for `_to_rgba_no_colorcycle` in `colors.py` and `_spectral_helper`in `mlab.py`
+    - Coverage and refactoring ideas for `_to_rgba_no_colorcycle.`
+    - Made two tests for `_to_rgba_no_colorcycle`. The tests are named `test_color_hex8_and_alpha`and `test_color_hex4_and_alpha`.
+
 - Håvard Alstadheim
-    -
+    - Plan for refactoring boxplot function
+    - Boxplot DIY coverage
+    - Essence Way-of-Working document
+    - Count cyclomatic complexity of _to_rgba_no_colorcycle@colors.py and boxplot@_axes.py by hand
+    - Two new tests for boxplot function in _axes.py
 - Carin Bystam
-    -
+    - Counting complexity for `hexbin` and `bar` in `_axes`.
+    - Coverage and refactoring ideas for `hexbin`.
+    - Two tests for `hexbin`: `test_hexbin_with_mincnt` and `test_hexbin_with_xscale_log`.
+    (Note: I misunderstood the instructions and implemented both the DIY coverage and the two tests in the DIY branch. Sorry.)
 
 ## Project
 
