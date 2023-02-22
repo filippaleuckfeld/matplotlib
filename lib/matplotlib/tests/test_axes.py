@@ -308,6 +308,18 @@ def test_strmethodformatter_auto_formatter():
     assert ax.yaxis.get_minor_formatter().fmt == targ_strformatter.fmt
 
 
+def test_legend_arg_len():
+    ax = plt.gca()
+    with pytest.raises(TypeError):
+        ax.legend("one", "two", "three", "four")
+
+def test_set_xscale_if_log():
+    ax = plt.gca()
+    ax.bar([0, 0], [2, 2], 0.8, [1, 4], orientation="horizontal", log=True)
+    assert ax.get_xscale() == "log"
+
+
+
 @image_comparison(["twin_axis_locators_formatters"])
 def test_twin_axis_locators_formatters():
     vals = np.linspace(0, 1, num=5, endpoint=True)
