@@ -110,6 +110,15 @@ We had different experiences building the project and running the tests. The onb
     - Implementing these steps would decrease the CC of hexbin by 15. The resulting CC would then be 22 (going by Lizards results). The length of hexbin would reduce by around 60 lines, so while the function would still be long after the refactorings, it is perhaps a bit more manageable than its current length of 188 lines.
     As with boxplot, a drawback could be that it would be some performance loss due to sending potentially large arrays and other required values to the functions.
 
+### `_to_rgba_no_colorcycle` in colors.py
+- Ideas for refactoring:
+    - Create helper functions for common operations. For example the format of the hex is checked several times using regular expression, this can be moved to seperate helper functions to make the code more readable.
+    - Extract common code blocks to a separate function. There are four hex color formats that are checked in the function. The code that converts each hex color format to an RGBA tuple is very similar. You could extract this code to a separate function to avoid duplication.
+    - Reformat the tests. The testing is very unstructured at the moment and could be rewritten in a simpler more readable way.
+
+- Estimated impact:
+    Implementing these ideas would reduce the cyclomatic complexity and reduce lines of code. Since there are many checks the code will also become more understandable and readable. One drawback could be a small performance loss since we need to call other functions, but this impact should be so small that we can disregard this.
+
 Carried out refactoring (optional, P+):
 
 git diff ...
