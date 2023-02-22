@@ -10,7 +10,11 @@ Contributions from the members of Group 1 are:
     - complexity, coverage and refactoring for `_spectral_helper`
     - two tests for `hexbin`: `test_hexbin_C_no_mincnt`, `test_hexbin_C_mincnt`
 - Alexander Binett
-    -
+    
+    - Counted cyclomatic complexity for `hexbin` and `bar` in `_axes`.
+    - Coverage and refactoring ideas for `bar`.
+    - Made two tests, one for `legend` and one for `bar`, both in `_axes`. The tests are named `test_legend_arg_len` and `test_set_xscale_if_log`.
+
 - Filippa Leuckfeld
     -
 - Håvard Alstadheim
