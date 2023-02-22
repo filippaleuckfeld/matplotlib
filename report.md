@@ -117,6 +117,16 @@ We had different experiences building the project and running the tests. The onb
     - Implementing these steps would decrease the CC of hexbin by 15. The resulting CC would then be 22 (going by Lizards results). The length of hexbin would reduce by around 60 lines, so while the function would still be long after the refactorings, it is perhaps a bit more manageable than its current length of 188 lines.
     As with boxplot, a drawback could be that it would be some performance loss due to sending potentially large arrays and other required values to the functions.
 
+
+### `bar` in _axes.py
+
+- For refactoring in bar:
+    - There is a part of the function that does conversions on the x and y coordinates. This could instead be done in a separate function since it is just processing the input data for it to be used later.
+    - There is a section of code where patches (objects with face and edge color) and errorbars are created. Having that section as a separate function would make sense since they are "building blocks" of the Bar container.
+
+- Estimated impact:
+    - Having a separate function for conversions of x and y coordinates would decrease the CC by 4. The solution of creating a function for patches and errorbars would decrease the CC by 12. After these two changes are made, the CC for the function would go from 31 to 15.
+
 ### `_to_rgba_no_colorcycle` in colors.py
 - Ideas for refactoring:
     - Create helper functions for common operations. For example the format of the hex is checked several times using regular expression, this can be moved to seperate helper functions to make the code more readable.
@@ -125,6 +135,7 @@ We had different experiences building the project and running the tests. The onb
 
 - Estimated impact:
     Implementing these ideas would reduce the cyclomatic complexity and reduce lines of code. Since there are many checks the code will also become more understandable and readable. One drawback could be a small performance loss since we need to call other functions, but this impact should be so small that we can disregard this.
+
 
 Carried out refactoring (optional, P+):
 
