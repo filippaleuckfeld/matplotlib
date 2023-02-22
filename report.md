@@ -75,18 +75,30 @@ We had different experiences building the project and running the tests. The onb
 
 ## Refactoring
 
-Plan for refactoring complex code:
+### `_spectral_helper` in mlab.py
 
-Estimated impact of refactoring (lower CC, but other drawbacks?).
+- Plan for refactoring:
+    - `_spectral_helper` can be refactored such that the `result` and `freqs` return variables are determined in a separate function.
+    This would require passing the `mode`, `pad_to`, `detrend_func`, `window`, `numfreqs`, `same_data`, `NFFT`, `scaling_factor` and `scale_by_freq` variables into the new function.  
 
-### boxplot in _axes.py
+- Estimated impact of refactoring (lower CC, but other drawbacks?).
+    - Doing this would move 12 decisions out of `_spectral_helper`, reducing the cyclomatic 
+    complexity substantially. However, since the `_spectral_helper` function is used quite 
+    frequently by other functions, another function call for each one might affect performance 
+    negatively.
 
-Two ideas for refactoring:
 
-1. The last two big if clauses (combined 26 rows) set values in the `bxpstats` dict based on the `usermedians` and `conf_intervals` parameters. These could be broken out into one or two separate functions.
-2. The `if sym is not None:` if clause contains several other branching points. Its purpose is to set the flierprops dict. This dict could be returned from a different function instead.
 
-The main benefit of implementing these refactors would be lowering the CC count by a total of 16, and also reducing the number of lines of code in the function. One drawback of implementing either of these changes could be a slight performance loss due to passing (potentially somewhat large) dicts or other values to and from the added functions, but this can be mitigated by passing references instead of copies.
+
+### `boxplot` in _axes.py
+
+- Two ideas for refactoring:
+
+    1. The last two big if clauses (combined 26 rows) set values in the `bxpstats` dict based on the `usermedians` and `conf_intervals` parameters. These could be broken out into one or two separate functions.
+    2. The `if sym is not None:` if clause contains several other branching points. Its purpose is to set the flierprops dict. This dict could be returned from a different function instead.
+
+- Estimated impact
+    - The main benefit of implementing these refactors would be lowering the CC count by a total of 16, and also reducing the number of lines of code in the function. One drawback of implementing either of these changes could be a slight performance loss due to passing (potentially somewhat large) dicts or other values to and from the added functions, but this can be mitigated by passing references instead of copies.
 
 Carried out refactoring (optional, P+):
 
