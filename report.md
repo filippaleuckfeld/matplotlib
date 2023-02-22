@@ -193,7 +193,7 @@ its output?
     * Since it uses relative paths to store files, tests that run in their own directories will not have their results counted unless they're manually moved to the correct files.
 
 3. Are the results of your tool consistent with existing coverage tools?
-    * TODO: use existing coverage tool other than `pytest-cov`
+    * On doing spot check comparisons with coverage.py, it can be seen that branches that coverage.py claims are not covered, are also identified as not covered by our DIY tool.
 
 ## Coverage improvement
 
@@ -240,4 +240,4 @@ Current state according to the Essence standard can be seen in [essence.md](./es
 
 What are your main take-aways from this project? What did you learn?
 
-Is there something special you want to mention here?
+We have learned more about communication and organisation. It takes experience to be able to work well in a team setting. This course has given us some of that experience and will be useful in the future for that reason. Of course, we anticipate to continue learning about these things throughout our whole careers. It was also very interesting to get such practical experience with a real open source project and real tools!
