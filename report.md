@@ -17,7 +17,7 @@ Contributions from the members of Group 1 are:
 
 ## Project
 
-Name: matplotlb
+Name: matplotlib
 
 Source repo URL: https://github.com/matplotlib/matplotlib
 
@@ -79,12 +79,12 @@ We had different experiences building the project and running the tests. The onb
 
 - Plan for refactoring:
     - `_spectral_helper` can be refactored such that the `result` and `freqs` return variables are determined in a separate function.
-    This would require passing the `mode`, `pad_to`, `detrend_func`, `window`, `numfreqs`, `same_data`, `NFFT`, `scaling_factor` and `scale_by_freq` variables into the new function.  
+    This would require passing the `mode`, `pad_to`, `detrend_func`, `window`, `numfreqs`, `same_data`, `NFFT`, `scaling_factor` and `scale_by_freq` variables into the new function.
 
 - Estimated impact of refactoring (lower CC, but other drawbacks?).
-    - Doing this would move 12 decisions out of `_spectral_helper`, reducing the cyclomatic 
-    complexity substantially. However, since the `_spectral_helper` function is used quite 
-    frequently by other functions, another function call for each one might affect performance 
+    - Doing this would move 12 decisions out of `_spectral_helper`, reducing the cyclomatic
+    complexity substantially. However, since the `_spectral_helper` function is used quite
+    frequently by other functions, another function call for each one might affect performance
     negatively.
 
 
@@ -108,7 +108,7 @@ We had different experiences building the project and running the tests. The onb
 
 - Estimated impact
     - Implementing these steps would decrease the CC of hexbin by 15. The resulting CC would then be 22 (going by Lizards results). The length of hexbin would reduce by around 60 lines, so while the function would still be long after the refactorings, it is perhaps a bit more manageable than its current length of 188 lines.
-    As with boxplot, a drawback could be that it would be some performance loss due to sending potentially large arrays and other required values to the functions. 
+    As with boxplot, a drawback could be that it would be some performance loss due to sending potentially large arrays and other required values to the functions.
 
 Carried out refactoring (optional, P+):
 
