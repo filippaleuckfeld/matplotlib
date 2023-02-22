@@ -956,12 +956,14 @@ def test_hexbin_log_clim():
     h = ax.hexbin(x, y, bins='log', vmin=2, vmax=100)
     assert h.get_clim() == (2, 100)
 
+
 # Lab 3 added test!!
 @image_comparison(["hexbin_mincnt.png"], remove_text=True)
 def test_hexbin_with_mincnt():
     x, y = np.arange(200).reshape((2, 100))
     fig, ax = plt.subplots()
-    ax.hexbin(x, y, mincnt=1, gridsize=35, cmap="plasma") 
+    ax.hexbin(x, y, mincnt=1, gridsize=35, cmap="plasma")
+
 
 # Can maybe add testing for negative x values with log?
 @image_comparison(["hexbin_log2.png"], remove_text=True)
@@ -3261,6 +3263,26 @@ def test_boxplot_autorange_whiskers():
 
     fig2, ax2 = plt.subplots()
     ax2.boxplot([x, x], bootstrap=10000, notch=1, autorange=True)
+    ax2.set_ylim((-5, 5))
+
+
+@image_comparison(['boxplot_1point1_whiskers.png',
+                   'boxplot_0-100_whiskers.png'],
+                  remove_text=True,
+                  style='mpl20')
+def test_boxplot_custom_whis():
+    # Randomness used for bootstrapping.
+    np.random.seed(937)
+
+    x = np.ones(140)
+    x = np.hstack([0, x, 2])
+
+    fig1, ax1 = plt.subplots()
+    ax1.boxplot([x, x], bootstrap=10000, notch=1, whis=1.1)
+    ax1.set_ylim((-5, 5))
+
+    fig2, ax2 = plt.subplots()
+    ax2.boxplot([x, x], bootstrap=10000, notch=1, whis=(0, 100))
     ax2.set_ylim((-5, 5))
 
 
