@@ -5,7 +5,10 @@ Assignment 3 is about code coverage and complexity.
 Contributions from the members of Group 1 are:
 
 - David Kaméus
-    -
+    
+    - ad-hoc coverage tool structure
+    - complexity, coverage and refactoring for `_spectral_helper`
+    - two tests for `hexbin`: `test_hexbin_C_no_mincnt`, `test_hexbin_C_mincnt`
 - Alexander Binett
     -
 - Filippa Leuckfeld
