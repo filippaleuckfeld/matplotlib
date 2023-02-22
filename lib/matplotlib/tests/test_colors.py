@@ -1599,8 +1599,14 @@ def test_cm_set_cmap_error():
         sm.set_cmap(bad_cmap)
 
 
-def test_colors():
+def test_color_hex8_and_alpha():
     c = "#1234ab80"
     alpha = 0.5
 
     assert mcolors.to_hex(mcolors.to_rgba(c,alpha), alpha) == c
+
+def test_color_hex4_and_alpha():
+    c = "#1234"
+    alpha = 0.5
+
+    assert mcolors.to_hex(mcolors.to_rgba(c,alpha), alpha) == '#11223380'
