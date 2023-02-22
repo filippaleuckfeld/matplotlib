@@ -34,13 +34,15 @@ We had different experiences building the project and running the tests. The onb
 ## Complexity
 
 1. What are your results for ten complex functions?
+
+
    * Did all methods (tools vs. manual count) get the same result?
 
         * Answer: No, the methods did not get the same result, lizard always had a higher complexty score than the manual calculation. The reason for this might be that lizard counts more decisions than we do by hand.
 
     * Are the results clear?
 
-        * Answer: Yes, we get coherent results for the manual count. See results below:
+        * Answer: Yes, we get coherent results for the manual count. The ten most complex function can be seen below, from least to most complex. The manual counting was done on the lowest five.
 
             |Function | Manual count | Lizard |
             |---------|--------------|--------|
@@ -49,6 +51,11 @@ We had different experiences building the project and running the tests. The onb
             |_to_rgba_no_colorcycle@colors.py|M=24|36|
             |hexbin@_axes.py|M=34|37|
             |_spectral_helper@mlab.py|M=37|39|
+            |eventplot@_axes.py|-|39|
+            |_make_image@image.py|-|40|
+            |errorbar@_axes.py|-|48|
+            |\_\_init\_\_@legend.py|-|59|
+            |hist@_axes.py|-|77|
 
 2. Are the functions just complex, or also long?
 
