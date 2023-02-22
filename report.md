@@ -34,13 +34,15 @@ We had different experiences building the project and running the tests. The onb
 ## Complexity
 
 1. What are your results for ten complex functions?
+
+
    * Did all methods (tools vs. manual count) get the same result?
 
         * Answer: No, the methods did not get the same result, lizard always had a higher complexty score than the manual calculation. The reason for this might be that lizard counts more decisions than we do by hand.
 
     * Are the results clear?
 
-        * Answer: Yes, we get coherent results for the manual count. See results below:
+        * Answer: Yes, we get coherent results for the manual count. The ten most complex function can be seen below, from least to most complex. The manual counting was done on the lowest five.
 
             |Function | Manual count | Lizard |
             |---------|--------------|--------|
@@ -49,6 +51,11 @@ We had different experiences building the project and running the tests. The onb
             |_to_rgba_no_colorcycle@colors.py|M=24|36|
             |hexbin@_axes.py|M=34|37|
             |_spectral_helper@mlab.py|M=37|39|
+            |eventplot@_axes.py|-|39|
+            |_make_image@image.py|-|40|
+            |errorbar@_axes.py|-|48|
+            |\_\_init\_\_@legend.py|-|59|
+            |hist@_axes.py|-|77|
 
 2. Are the functions just complex, or also long?
 
@@ -110,6 +117,7 @@ We had different experiences building the project and running the tests. The onb
     - Implementing these steps would decrease the CC of hexbin by 15. The resulting CC would then be 22 (going by Lizards results). The length of hexbin would reduce by around 60 lines, so while the function would still be long after the refactorings, it is perhaps a bit more manageable than its current length of 188 lines.
     As with boxplot, a drawback could be that it would be some performance loss due to sending potentially large arrays and other required values to the functions.
 
+
 ### `bar` in _axes.py
 
 - For refactoring in bar:
@@ -118,6 +126,16 @@ We had different experiences building the project and running the tests. The onb
 
 - Estimated impact:
     - Having a separate function for conversions of x and y coordinates would decrease the CC by 4. The solution of creating a function for patches and errorbars would decrease the CC by 12. After these two changes are made, the CC for the function would go from 31 to 15.
+
+### `_to_rgba_no_colorcycle` in colors.py
+- Ideas for refactoring:
+    - Create helper functions for common operations. For example the format of the hex is checked several times using regular expression, this can be moved to seperate helper functions to make the code more readable.
+    - Extract common code blocks to a separate function. There are four hex color formats that are checked in the function. The code that converts each hex color format to an RGBA tuple is very similar. You could extract this code to a separate function to avoid duplication.
+    - Reformat the tests. The testing is very unstructured at the moment and could be rewritten in a simpler more readable way.
+
+- Estimated impact:
+    Implementing these ideas would reduce the cyclomatic complexity and reduce lines of code. Since there are many checks the code will also become more understandable and readable. One drawback could be a small performance loss since we need to call other functions, but this impact should be so small that we can disregard this.
+
 
 Carried out refactoring (optional, P+):
 
