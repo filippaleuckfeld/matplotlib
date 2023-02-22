@@ -166,17 +166,36 @@ The functions from matplotlib contain extensive documentation and specifications
 
 Report of old coverage for all tests: https://github.com/filippaleuckfeld/matplotlib/issues/17#issuecomment-1438609900
 
-Report of new coverage:
+### Report of new coverage:
+
+Addition of [test_hexbin_C_mincnt and test_hexbin_C_no_mincnt](https://github.com/filippaleuckfeld/matplotlib/issues/36)
 
 Addition of [test_boxplot_custom_whis](https://github.com/filippaleuckfeld/matplotlib/issues/19#issuecomment-1437724172) shows an expected improvement compared to baseline (1 more branch covered).
 
 Addition of [test_boxplot_empty_sym](https://github.com/filippaleuckfeld/matplotlib/issues/32#issuecomment-1438667248) also shows 1 more branch covered compared to baseline.
 
-Test cases added:
+Addition of [tests for _to_rgba_no_colorcycle](https://github.com/filippaleuckfeld/matplotlib/issues/18)
 
-The implementation of test_boxplot_custom_whis can be seen [in this commit](https://github.com/filippaleuckfeld/matplotlib/commit/a2f23061999e9a5764463d6d79420028cace88a2).
+Addition of [bar and legend function](https://github.com/filippaleuckfeld/matplotlib/issues/47)
 
-The implementation of test_boxplot_empty_sym can be seen [in this commit](https://github.com/filippaleuckfeld/matplotlib/commit/555dcdcc41f270c1760a1d9c8278cc41f5cdafb5)
+Addition of [test_hexbin_with_mincnt and test_hexbin_with_xscale_log](https://github.com/filippaleuckfeld/matplotlib/issues/14).
+
+### Test cases added:
+
+The implementation of `test_hexbin_C_mincnt` and `test_hexbin_C_no_mincnt` can be seen [in this commit](https://github.com/filippaleuckfeld/matplotlib/commit/1ca5c7a0e7c9773889383040b25856a15e6683cd)
+
+The implementation of `test_boxplot_custom_whis` can be seen [in this commit](https://github.com/filippaleuckfeld/matplotlib/commit/a2f23061999e9a5764463d6d79420028cace88a2).
+
+The implementation of `test_boxplot_empty_sym` can be seen [in this commit](https://github.com/filippaleuckfeld/matplotlib/commit/555dcdcc41f270c1760a1d9c8278cc41f5cdafb5)
+
+The implementation of `test_colors` can be seen [in this commit](https://github.com/filippaleuckfeld/matplotlib/commit/03deb0435d5b11c2260e59979b98ac6f7e45a3d5)
+
+The implementation of `test_color_hex4_and_alpha` can be seen [in this commit](https://github.com/filippaleuckfeld/matplotlib/commit/a57e56b322412c715ffae165aa89d03af99502a4)
+
+The implementation of `test_legend_arg_len` and `test_set_xscale_if_log` can be seen [in this commit](https://github.com/filippaleuckfeld/matplotlib/commit/9b11ba0203e12fd9a936fe8fb6f968172204a855)
+
+The implementation of `test_hexbin_with_mincnt` and `test_hexbin_with_xscale_log` can be seen [in this commit](https://github.com/filippaleuckfeld/matplotlib/commit/98282536e153662cf60812c342996147bf501ae2#diff-ef5144bd27a700deb760ef56ccf51dc6fcfe86723f9ffa84df7f024985bf3ee7)
+
 
 ## Self-assessment: Way of working
 
