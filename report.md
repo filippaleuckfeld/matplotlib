@@ -167,13 +167,7 @@ Number of test cases added: two per team member (P) or at least four (P+).
 
 ## Self-assessment: Way of working
 
-Current state according to the Essence standard: ...
-
-Was the self-assessment unanimous? Any doubts about certain items?
-
-How have you improved so far?
-
-Where is potential for improvement?
+Current state according to the Essence standard can be seen in [essence.md](./essence.md)
 
 ## Overall experience
 
