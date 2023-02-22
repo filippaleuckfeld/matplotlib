@@ -5,12 +5,12 @@ Assignment 3 is about code coverage and complexity.
 Contributions from the members of Group 1 are:
 
 - David Kaméus
-    
+
     - ad-hoc coverage tool structure
     - complexity, coverage and refactoring for `_spectral_helper`
     - two tests for `hexbin`: `test_hexbin_C_no_mincnt`, `test_hexbin_C_mincnt`
 - Alexander Binett
-    
+
     - Counted cyclomatic complexity for `hexbin` and `bar` in `_axes`.
     - Coverage and refactoring ideas for `bar`.
     - Made two tests, one for `legend` and one for `bar`, both in `_axes`. The tests are named `test_legend_arg_len` and `test_set_xscale_if_log`.
@@ -18,11 +18,15 @@ Contributions from the members of Group 1 are:
 - Filippa Leuckfeld
     -
 - Håvard Alstadheim
-    -
+    - Plan for refactoring boxplot function
+    - Boxplot DIY coverage
+    - Essence Way-of-Working document
+    - Count cyclomatic complexity of _to_rgba_no_colorcycle@colors.py and boxplot@_axes.py by hand
+    - Two new tests for boxplot function in _axes.py
 - Carin Bystam
     - Counting complexity for `hexbin` and `bar` in `_axes`.
     - Coverage and refactoring ideas for `hexbin`.
-    - Two tests for `hexbin`: `test_hexbin_with_mincnt` and `test_hexbin_with_xscale_log`. 
+    - Two tests for `hexbin`: `test_hexbin_with_mincnt` and `test_hexbin_with_xscale_log`.
     (Note: I misunderstood the instructions and implemented both the DIY coverage and the two tests in the DIY branch. Sorry.)
 
 ## Project
@@ -89,12 +93,12 @@ We had different experiences building the project and running the tests. The onb
 
 - Plan for refactoring:
     - `_spectral_helper` can be refactored such that the `result` and `freqs` return variables are determined in a separate function.
-    This would require passing the `mode`, `pad_to`, `detrend_func`, `window`, `numfreqs`, `same_data`, `NFFT`, `scaling_factor` and `scale_by_freq` variables into the new function.  
+    This would require passing the `mode`, `pad_to`, `detrend_func`, `window`, `numfreqs`, `same_data`, `NFFT`, `scaling_factor` and `scale_by_freq` variables into the new function.
 
 - Estimated impact of refactoring (lower CC, but other drawbacks?).
-    - Doing this would move 12 decisions out of `_spectral_helper`, reducing the cyclomatic 
-    complexity substantially. However, since the `_spectral_helper` function is used quite 
-    frequently by other functions, another function call for each one might affect performance 
+    - Doing this would move 12 decisions out of `_spectral_helper`, reducing the cyclomatic
+    complexity substantially. However, since the `_spectral_helper` function is used quite
+    frequently by other functions, another function call for each one might affect performance
     negatively.
 
 
@@ -118,7 +122,7 @@ We had different experiences building the project and running the tests. The onb
 
 - Estimated impact
     - Implementing these steps would decrease the CC of hexbin by 15. The resulting CC would then be 22 (going by Lizards results). The length of hexbin would reduce by around 60 lines, so while the function would still be long after the refactorings, it is perhaps a bit more manageable than its current length of 188 lines.
-    As with boxplot, a drawback could be that it would be some performance loss due to sending potentially large arrays and other required values to the functions. 
+    As with boxplot, a drawback could be that it would be some performance loss due to sending potentially large arrays and other required values to the functions.
 
 Carried out refactoring (optional, P+):
 
