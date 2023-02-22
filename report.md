@@ -16,7 +16,10 @@ Contributions from the members of Group 1 are:
 - Håvard Alstadheim
     -
 - Carin Bystam
-    -
+    - Counting complexity for `hexbin` and `bar` in `_axes`.
+    - Coverage and refactoring ideas for `hexbin`.
+    - Two tests for `hexbin`: `test_hexbin_with_mincnt` and `test_hexbin_with_xscale_log`. 
+    (Note: I misunderstood the instructions and implemented both the DIY coverage and the two tests in the DIY branch. Sorry.)
 
 ## Project
 
