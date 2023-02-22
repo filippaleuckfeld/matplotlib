@@ -128,8 +128,6 @@ Number of test cases added: two per team member (P) or at least four (P+).
 
 Current state according to the Essence standard can be seen in [essence.md](./essence.md)
 
-Was the self-assessment unanimous? Any doubts about certain items?
-
 ## Overall experience
 
 What are your main take-aways from this project? What did you learn?
